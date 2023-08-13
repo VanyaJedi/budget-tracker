@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { CommonResponse } from '../models';
 import { User } from '../../user/models';
+import { EXPENSES } from '../data/expenses';
+
+import { Expense } from '../../tracker/models/expense.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +26,9 @@ export class MockBackendService {
         message: 'Invalid username or password',
       }));
     }
+  }
+
+  getExpenses(): Observable<Expense[]> {
+    return of(EXPENSES as unknown as Expense[]);
   }
 }
