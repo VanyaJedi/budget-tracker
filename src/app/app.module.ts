@@ -10,6 +10,11 @@ import { StoreModule } from '@ngrx/store';
 import { AUTH_FEATURE, authReducer } from './modules/store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './modules/store/effects';
+import {
+  EXPENSES_FEATURE,
+  expensesReducer,
+} from './modules/store/reducers/expenses.reducer';
+import { ExpensesEffects } from './modules/store/effects/expenses.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,10 +27,11 @@ import { AuthEffects } from './modules/store/effects';
     StoreModule.forRoot(
       {
         [AUTH_FEATURE]: authReducer,
+        [EXPENSES_FEATURE]: expensesReducer,
       },
       {}
     ),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, ExpensesEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],

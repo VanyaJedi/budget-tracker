@@ -28,7 +28,7 @@ export class MockBackendService {
     }
   }
 
-  getExpenses(): Observable<Expense[]> {
-    return of(EXPENSES as unknown as Expense[]);
+  getExpenses(): Observable<CommonResponse<Expense[]>> {
+    return of({ success: true, data: EXPENSES as unknown as Expense[] });
   }
 }

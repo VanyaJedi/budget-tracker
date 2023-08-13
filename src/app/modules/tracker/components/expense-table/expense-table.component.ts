@@ -1,12 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Expense } from '../../models/expense.model';
-import { MockBackendService } from 'src/app/modules/mock-backend/services';
-import { Subject, takeUntil } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectExpenses } from 'src/app/modules/store/reducers/expenses.reducer';
 
 @Component({
   selector: 'app-expense-table',
@@ -14,10 +9,10 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./expense-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpenseTableComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
-  expenses$ = this.mockBackendService.getExpenses();
-  constructor(private mockBackendService: MockBackendService) {}
+export class ExpenseTableComponent {
+  expenses$ = this.store.select(selectExpenses);
+
+  constructor(private store: Store) {}
 
   displayedColumns = [
     'id',
@@ -34,21 +29,4 @@ export class ExpenseTableComponent implements OnInit, OnDestroy {
   ];
 
   dataSource: Expense[] = [];
-
-  ngOnInit(): void {
-    this.mockBackendService
-      .getExpenses()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        if (data) {
-          console.log(data);
-          this.dataSource = data;
-          console.log(this.dataSource);
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-  }
 }

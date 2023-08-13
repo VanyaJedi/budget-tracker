@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { loadExpence } from 'src/app/modules/store/actions';
 
 @Component({
   selector: 'app-tracker-page',
@@ -6,4 +8,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./tracker-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrackerPageComponent {}
+export class TrackerPageComponent implements OnInit {
+  constructor(private store: Store) {}
+
+  ngOnInit(): void {
+    this.store.dispatch(loadExpence());
+  }
+}
